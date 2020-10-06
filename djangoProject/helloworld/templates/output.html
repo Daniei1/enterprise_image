@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>抽取结果输出</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <br>
+    <h2>输入文本为：</h2>
+    <br>
+    <textarea type="text" class = "form-control input-lg">{{txt}}</textarea>
+    <br>
+    <h3>抽取结果为：</h3>
+    <br>
+    {% for N in web_data %}
+      <h1>{{enterprise_name.counter0}}</h1>
+      {% endfor %}
+<table class="table table-bordered">
+  <caption>条纹表格布局</caption>
+  <thead>
+    <tr>
+      <th>企业名称</th>
+      {% for A in enterprise_name %}
+        <th>{{ A }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+      <td>法人代表</td>
+      {% for B in legal_representative %}
+      <th>{{ B }}</th>
+      {% endfor %}
+  </tr>
+  <tr>
+      <th>成立时间</th>
+      {% for C in establish_data %}
+      <th>{{C}}</th>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>注册资本</td>
+      {% for D in registered_capital %}
+      <th>{{D}}</th>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>公司地址</td>
+      {% for E in location_data %}
+      <td>{{E}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>经营范围</td>
+      {% for F in business_scope %}
+      <td>{{F}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>经营期限</td>
+      {% for G in operating_period %}
+      <td>{{G}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>登记机关</td>
+      {% for H in registered_authority %}
+      <td>{{H}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>股东信息</td>
+      {% for I in shareholder_information %}
+      <td>{{I}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>高管信息</td>
+      {% for J in executive_information %}
+      <td>{{J}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>登记状态</td>
+      {% for K in registered_statement %}
+      <td>{{K}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>实收资本</td>
+      {% for L in get_capital %}
+      <td>{{L}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>邮政编码</td>
+      {% for M in postal_code_data %}
+      <td>{{M}}</td>
+      {% endfor %}
+  </tr>
+  <tr>
+      <td>股东信息</td>
+      {% for N in web_data %}
+      <td>{{N}}</td>
+      {% endfor %}
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
