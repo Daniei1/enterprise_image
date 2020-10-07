@@ -1,3 +1,4 @@
+import re
 
 
 def extract(txt):
@@ -48,7 +49,6 @@ def extract(txt):
     for txt in txt_split:
         # 公司名称
         name_num.append(0)
-        enterprise_name.append('')
         # 法定代表人
         legal_representative_num.append(0)
         legal_representative.append('')
@@ -89,29 +89,26 @@ def extract(txt):
         web_num.append(0)
         web_data.append('')
         last = len(txt)
+
         # 获取企业名称
-        while name_num[i] < last:
-            if txt[name_num[i]] != '，':
-                enterprise_name[i] = enterprise_name[i] + txt[name_num[i]]
-                name_num[i] = name_num[i] + 1
-            else:
-                break
-        #print(enterprise_name[i])
+        if re.search(r'(\s?)(.{1,30})公司|(\s?)(.{1,30})企业|，(.{1,30})企业|。(.{1,30})企业|，(.{1,30})公司|。(.{1,30})公司', txt) != None:
+            enterprise_name = re.search(r'(\s?)(.{1,30})公司|(\s?)(.{1,30})企业|，(.{1,30})企业|。(.{1,30})企业|，(.{1,30})公司|。(.{1,30})公司', txt).group()
+
+        # print(enterprise_name[i])
 
         # 获取企业经营范围
-        while business_scope_num[i]+4 < last:
-            if txt[business_scope_num[i]+1:business_scope_num[i]+5] == '经营范围':
-                business_scope_num[i] = business_scope_num[i] + 5
-                while business_scope_num[i] < last:
-                    if txt[business_scope_num[i]] != '。':
-                        business_scope[i] = business_scope[i] + txt[business_scope_num[i]]
-                        business_scope_num[i] = business_scope_num[i] + 1
-                    else:
-                        break
-                break
-            else:
-                business_scope_num[i] = business_scope_num[i] + 1
-        #print(business_scope[i])
+        if re.search(r'经营范围', txt) != None:
+            a, b = re.search(r'经营范围',txt).span()
+            while business_scope_num[i] < last:
+                if txt[business_scope_num[i]] != '。':
+                    business_scope[i] = business_scope[i] + txt[a]
+                    a = a + 1
+                else:
+                    break
+            break
+        else:
+            business_scope_num[i] = business_scope_num[i] + 1
+        print(business_scope[i])
 
         # 成立时间
 
@@ -180,23 +177,38 @@ def extract(txt):
         i = i + 1
 
         #
-
+    print('***********************************************************************************************************************************************')
+    # 公司名称
+    print(re.search(r'(\s?)(.{1,30})公司|(\s?)(.{1,30})企业|，(.{1,30})企业|。(.{1,30})企业|，(.{1,30})公司|。(.{1,30})公司', txt).group())
+    # 时间匹配
+    print(re.search(r'(\d+)年(\d+)月(\d+)日|(\d+)年(\d+)月|(\d+)年', txt))
+    a, b = re.search(r'经营范围',txt).span()
+    print(a,"  ", b)
+    # 网址匹配
+    print(re.search(r'http(.+)[a-zA-Z0-9]/', txt))
+    # 邮政编码
+    print(re.search(r'\D\d{6}\D', txt))
+    # 公司地址
+    print(re.search(r'(公司)?地址', txt))
+    # 经营范围
+    print(re.search(r'经营范围',txt))
+    print('***********************************************************************************************************************************************')
     return enterprise_name, legal_representative, establish_data, registered_capital, location_data, business_scope, operating_period, registered_authority, shareholder_information, executive_information, registered_statement, get_capital,postal_code_data, web_data
 
 
 txt = '湖北恒通荣昌建设工程有限公司，成立于2000年2月2日，经营范围包括：室内外装饰工程设计与施工；消防工程设计、施工；楼宇智能化监控系统、电气自动化控制系统的设计、施工；给排水工程设计、施工；市政工程设计与施工；暖通设备、通风设备、空调设备维修；机电设备销售；幕墙工程、园林绿化工程、钢结构工程施工；电梯设备的安装与维修；通风设备的生产、加工（生产加工仅限分支机构）。公司地址：黄陂区盘龙城卓尔总部m2。邮政编码：430062。公司网站：http://www.whchyl.com/。#湖北恒通荣昌建设工程有限公司，成立于2000年2月2日，经营范围包括：室内外装饰工程设计与施工；消防工程设计、施工；楼宇智能化监控系统、电气自动化控制系统的设计、施工；给排水工程设计、施工；市政工程设计与施工；暖通设备、通风设备、空调设备维修；机电设备销售；幕墙工程、园林绿化工程、钢结构工程施工；电梯设备的安装与维修；通风设备的生产、加工（生产加工仅限分支机构）。公司地址：黄陂区盘龙城卓尔总部m2。邮政编码：430062。公司网站：http://www.whchyl.com/。'
 enterprise_name, legal_representative, establish_data, registered_capital, location_data, business_scope, operating_period, registered_authority, shareholder_information, executive_information, registered_statement, get_capital, postal_code_data, web_data = extract(txt)
-print(enterprise_name)
-print(legal_representative)
-print(establish_data)
-print(registered_capital)
-print(location_data)
-print(business_scope)
-print(operating_period)
-print(registered_authority)
-print(shareholder_information)
-print(executive_information)
-print(registered_statement)
-print(get_capital)
-print(postal_code_data)
-print(web_data)
+# print(enterprise_name)
+# print(legal_representative)
+# print(establish_data)
+# print(registered_capital)
+# print(location_data)
+# print(business_scope)
+# print(operating_period)
+# print(registered_authority)
+# print(shareholder_information)
+# print(executive_information)
+# print(registered_statement)
+# print(get_capital)
+# print(postal_code_data)
+# print(web_data)
