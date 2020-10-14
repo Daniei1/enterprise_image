@@ -1,182 +1,211 @@
+#coding:utf-8
+import re
+import csv
+
+
+def create_csv(A):
+    path = "../../data/"
+    with open(path+"enterprise_node.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name"]
+        csv_write.writerow(csv_head)
+        i = 1
+        for data in A:
+            data_row = [i, data[0]]
+            csv_write.writerow(data_row)
+            i = i + 1
+    with open(path+"codeof.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name", "code_id", "code", "relation"]
+        csv_write.writerow(csv_head)
+        i = 1
+        j = 1
+        for data in A:
+            if data[12] != '*':
+                data_row = [j, data[0], i, data[12], "codeof"]
+                csv_write.writerow(data_row)
+                i = i + 1
+            j = j + 1
+    with open(path+"establishtimeof.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name", "time_id", "time", "relation"]
+        csv_write.writerow(csv_head)
+        i = 1
+        j = 1
+        for data in A:
+            if data[2] != '*':
+                data_row = [j, data[0], i, data[2], "establishtimeof"]
+                csv_write.writerow(data_row)
+                i = i + 1
+            j = j + 1
+    with open(path+"locationof.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name", "location_id", "location", "relation"]
+        csv_write.writerow(csv_head)
+        i = 1
+        j = 1
+        for data in A:
+            if data[4] != '*':
+                data_row = [j, data[0], i, data[4], "locationof"]
+                csv_write.writerow(data_row)
+                i = i + 1
+            j = j + 1
+    with open(path+"scopeof.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name", "scope_id", "scope", "relation"]
+        csv_write.writerow(csv_head)
+        i = 1
+        j = 1
+        for data in A:
+            if data[5] != '*':
+                data_row = [j, data[0], i, data[5], "scopeof"]
+                csv_write.writerow(data_row)
+                i = i + 1
+            j = j + 1
+    with open(path+"webof.csv", 'w', encoding='utf-8', newline='') as file:
+        csv_write = csv.writer(file)
+        csv_head = ["name_id", "name", "web_id", "web", "relation"]
+        csv_write.writerow(csv_head)
+        i = 1
+        j = 1
+        for data in A:
+            if data[13] != '*':
+                data_row = [j, data[0], i, data[13], "webof"]
+                csv_write.writerow(data_row)
+                i = i + 1
+            j = j + 1
+
+
 def extract(txt):
-    # 公司名称
-    name_num = []
-    enterprise_name = []
-    # 法定代表人
-    legal_representative_num = []
-    legal_representative = []
-    # 成立时间
-    establish_num = []
-    establish_data = []
-    # 注册资本
-    registered_capital_num = []
-    registered_capital = []
-    # 公司地址
-    location_num = []
-    location_data = []
-    # 经营范围
-    business_scope_num = []
-    business_scope = []
-    # 经营期限
-    operating_period_num = []
-    operating_period = []
-    # 登记机关
-    registered_authority_num = []
-    registered_authority = []
-    # 股东信息
-    shareholder_information_num = []
-    shareholder_information = []
-    # 高管信息
-    executive_information_num = []
-    executive_information = []
-    # 登记状态
-    registered_statement_num = []
-    registered_statement = []
-    # 实收资本
-    get_capital_num = []
-    get_capital = []
-    # 邮政编码
-    postal_code_num = []
-    postal_code_data = []
-    # 公司网址
-    web_num = []
-    web_data = []
-    i = 0
     txt_split = txt.split('#')
+    A = []
+    i = 0
+    for text in txt_split:
+        A.append([])
+        for j in range(0, 14):
+            A[i].append('')
+        i = i + 1
+    i = 0
+    print(txt)
     for txt in txt_split:
         # 公司名称
-        name_num.append(0)
-        enterprise_name.append('')
+        name_num = 0
         # 法定代表人
-        legal_representative_num.append(0)
-        legal_representative.append('')
+        legal_representative_num = 0
         # 成立时间
-        establish_num.append(0)
-        establish_data.append('')
+        establish_num = 0
         # 注册资本
-        registered_capital_num.append(0)
-        registered_capital.append('')
+        registered_capital_num = 0
         # 公司地址
-        location_num.append(0)
-        location_data.append('')
+        location_num = 0
         # 经营范围
-        business_scope_num.append(0)
-        business_scope.append('')
+        business_scope_num = 0
         # 经营期限
-        operating_period_num.append(0)
-        operating_period.append('')
+        operating_period_num = 0
         # 登记机关
-        registered_authority_num.append(0)
-        registered_authority.append('')
+        registered_authority_num = 0
         # 股东信息
-        shareholder_information_num.append(0)
-        shareholder_information.append('')
+        shareholder_information_num = 0
         # 高管信息
-        executive_information_num.append(0)
-        executive_information.append('')
+        executive_information_num = 0
         # 登记状态
-        registered_statement_num.append(0)
-        registered_statement.append('')
+        registered_statement_num = 0
         # 实收资本
-        get_capital_num.append(0)
-        get_capital.append('')
+        get_capital_num = 0
         # 邮政编码
-        postal_code_num.append(0)
-        postal_code_data.append('')
+        postal_code_num = 0
         # 公司网址
-        web_num.append(0)
-        web_data.append('')
+        web_num = 0
         last = len(txt)
         # 获取企业名称
-        while name_num[i] < last:
-            if txt[name_num[i]] != '，':
-                enterprise_name[i] = enterprise_name[i] + txt[name_num[i]]
-                name_num[i] = name_num[i] + 1
-            else:
-                break
-        # print(enterprise_name[i])
+        name = ''
+        temp = re.search(r'(\s?)(.{1,30})公司|(\s?)(.{1,30})企业|，(.{1,30})企业|。(.{1,30})企业|，(.{1,30})公司|。(.{1,30})公司', txt)
+        if temp != None:
+            for tp in temp.group():
+                name = name + tp
+        name = name.split('，')
+        A[i][0] = name[0]
+        if A[i][0] == '':
+            A[i][0] = '*'
+        print(A[i][0])
 
-        # 获取企业经营范围
-        while business_scope_num[i]+4 < last:
-            if txt[business_scope_num[i]+1:business_scope_num[i]+5] == '经营范围':
-                business_scope_num[i] = business_scope_num[i] + 5
-                while business_scope_num[i] < last:
-                    if txt[business_scope_num[i]] != '。':
-                        business_scope[i] = business_scope[i] + txt[business_scope_num[i]]
-                        business_scope_num[i] = business_scope_num[i] + 1
-                    else:
-                        break
-                break
-            else:
-                business_scope_num[i] = business_scope_num[i] + 1
-        # print(business_scope[i])
-
-        # 成立时间
-
-        while establish_num[i]+3 < last:
-            if txt[establish_num[i]+1:establish_num[i]+4] == '成立于':
-                establish_num[i] = establish_num[i] + 4
-                while establish_num[i] < last:
-                    if (txt[establish_num[i]] != '，') and (txt[establish_num[i]] != '。'):
-                        establish_data[i] = establish_data[i] + txt[establish_num[i]]
-                        establish_num[i] = establish_num[i] + 1
-                    else:
-                        break
-                break
-            else:
-                establish_num[i] = establish_num[i] + 1
-        # print(establish_data[i])
+        # 公司的成立时间
+        temp = re.search(r'(\d+)年(\d+)月(\d+)日|(\d+)年(\d+)月|(\d+)年', txt)
+        if temp != None:
+            for tp in temp.group():
+                A[i][2] = A[i][2] + tp
+        print(A[i][2])
+        if A[i][2] == '':
+            A[i][2] = '*'
 
         # 公司地址
+        temp = re.search(r'(公司)?地址', txt)
+        if temp != None:
+            a, b = re.search(r'(公司)?地址', txt).span()
+            b = b + 2
+            while b < last:
+                if txt[b+1] != '。' and txt[b+1] != '，' and txt[b+1] != '！':
+                    A[i][4] = A[i][4] + txt[b]
+                    b = b + 1
+                else:
+                    break
+            A[i][4] = A[i][4] + txt[b]
+        print(A[i][4])
+        if A[i][4] == '':
+            A[i][4] = '*'
 
-        while location_num[i] + 4 < last:
-            if txt[location_num[i]+1:location_num[i]+5] == '公司地址':
-                location_num[i] = location_num[i] + 6
-                while location_num[i] < last:
-                    if txt[location_num[i]] != '，' and txt[location_num[i]] != '。':
-                        location_data[i] = location_data[i] + txt[location_num[i]]
-                        location_num[i] = location_num[i] + 1
-                    else:
-                        break
-                break
+        # 公司的主要经营范围
+        if re.search(r'经营范围', txt) != None:
+            a, b = re.search(r'经营范围', txt).span()
+            #b = b + 1
+            temp = ''
+            while txt[b] != '。':
+                temp = temp + txt[b]
+                b = b + 1
+            temp = temp.split('：')
+            if len(temp) > 1:
+                for tp in temp[1]:
+                    A[i][5] = A[i][5] + tp
             else:
-                location_num[i] = location_num[i] + 1
-        # print(location_data[i])
+                for tp in temp[0]:
+                    A[i][5] = A[i][5] + tp
+        elif re.search(r'主要经营', txt) != None:
+            a, b = re.search(r'主要经营', txt).span()
+            #b = b + 1
+            temp = ''
+            while txt[b] != '。':
+                temp = temp + txt[b]
+                b = b + 1
+            temp = temp.split('：')
+            if len(temp) > 1:
+                for tp in temp[1]:
+                    A[i][5] = A[i][5] + tp
+            else:
+                for tp in temp[0]:
+                    A[i][5] = A[i][5] + tp
+        print(A[i][5])
+        if A[i][5] == '':
+            A[i][5] = '*'
 
         # 邮政编码
-
-        while postal_code_num[i] + 4 < last:
-            if txt[postal_code_num[i]+1:postal_code_num[i]+5] == '邮政编码':
-                postal_code_num[i] = postal_code_num[i] + 6
-                while postal_code_num[i] < last:
-                    if txt[postal_code_num[i]] != '，' and txt[postal_code_num[i]] != '。':
-                        postal_code_data[i] = postal_code_data[i] + txt[postal_code_num[i]]
-                        postal_code_num[i] = postal_code_num[i] + 1
-                    else:
-                        break
-                break
-            else:
-                postal_code_num[i] = postal_code_num[i] + 1
-        # print(postal_code_data[i])
+        temp = re.search(r'\D\d{6}\D', txt)
+        if temp != None:
+            a, b = temp.span()
+            k = a + 1
+            while k < b-1:
+                A[i][12] = A[i][12] + txt[k]
+                k = k + 1
+        print(A[i][12])
+        if A[i][12] == '':
+            A[i][12] = '*'
 
         # 公司网址
-
-        while web_num[i] + 4 < last:
-            if txt[web_num[i]+1:web_num[i]+5] == '公司网站':
-                web_num[i] = web_num[i] + 6
-                while web_num[i] < last:
-                    if txt[web_num[i]] != ',' and txt[web_num[i]] != '。' and txt[web_num[i]] != '；':
-                        web_data[i] = web_data[i] + txt[web_num[i]]
-                        web_num[i] = web_num[i] + 1
-                    else:
-                        break
-                break
-            else:
-                web_num[i] = web_num[i] + 1
-        # print(web_data[i])
-
+        if re.search(r'http(.+)[a-zA-Z0-9]/?', txt) != None:
+            for tp in re.search(r'http(.+)[a-zA-Z0-9]/?', txt).group():
+                A[i][13] = A[i][13] + tp
+        print(A[i][13])
+        if A[i][13] == '':
+            A[i][13] = '*'
+        print(A[i])
         i = i + 1
-
-        #
-
-    return enterprise_name, legal_representative, establish_data, registered_capital, location_data, business_scope, operating_period, registered_authority, shareholder_information, executive_information, registered_statement, get_capital,postal_code_data, web_data
+    return A
